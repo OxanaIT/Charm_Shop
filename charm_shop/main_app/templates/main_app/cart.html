@@ -1,0 +1,12 @@
+{% extends "main_app/base.html" %}
+
+{% block title %}
+Checkout
+{% endblock %}
+{% block content %}
+
+<div class="container mt-5"><br>
+<h1>Your cart is empty!</h1>
+    <a class="btn btn-warning btn-lg mb-5" href="{% url 'home' %}">Go Shopping</a>
+</div>
+{% endblock %}
