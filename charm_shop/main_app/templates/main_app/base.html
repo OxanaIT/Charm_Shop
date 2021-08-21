@@ -94,7 +94,7 @@
               </li>
               <li class="nav-item">
                   <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown"><div class="SVB">Teenagers</div></a>
-                  <ul class="dropdown-menu dropdown-menu-dark" style="margin-top: -20px">
+                  <ul class="dropdown-menu dropdown-menu-light" style="margin-top: -20px">
                       <li><a class="dropdown-item" href="#">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
                       <li><a class="dropdown-item" href="#">Footwear</a></li>
@@ -104,7 +104,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link m-3 text-dark" href="{% url 'kids' %}"><div class="SVB">All products</div></a>
+                  <a class="nav-link m-3 text-dark" href="{% url 'all_products' %}"><div class="SVB">All products</div></a>
               </li>
           </ul>
         </div>
@@ -112,13 +112,6 @@
 
 
           </ul>
-            <form action="" method="post" class="input-group col">
-                      {% csrf_token %}
-                    <div class="col-auto">
-                    <input type="text" class="form-control" placeholder="Search" name="search">
-                    </div>
-                    <input class="btn btn-outline-dark" type="submit" value="Search">
-            </form>
         </div>
     </nav>
     </div>
