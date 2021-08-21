@@ -1,0 +1,21 @@
+{% extends "main_app/base.html" %} {% block title %} {{ product.title }} {% endblock %} {% block content %}
+<div class="container">
+    <h3>Product : {{ product.title }}</h3>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+             <a> <img src="{{ product.image }}" height="300" > </a>
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.title }}</h2>
+            <h3>Category: {{ product.category }}</h3>
+            <br>
+            <h4>Price: {{ product.price }} Eur</h4>
+            <a href="" class="btn btn-outline-dark mt-4 mb-1" style="display:block">Add To Cart</a>
+            <hr>
+            <p class="text-uppercase">Description: {{ product.description }}</p>
+            <p class="mt-4 text-uppercase">Return policy: {{ product.return_policy }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
