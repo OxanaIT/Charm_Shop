@@ -28,10 +28,7 @@
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
-            <select class="selectpicker" data-width="fit">
-                <option data-content='<span class="flag-icon flag-icon-us"></span> English'>ENG</option>
-                <option  data-content='<span class="flag-icon flag-icon-mx"></span> Latvian'>LV</option>
-            </select>
+
           </div>
 
           <div class="col-4 text-center">
@@ -45,7 +42,13 @@
                     <input class="btn btn-outline-dark" type="submit" value="Search">
                   </form>
               <a class="btn btn-outline-dark m-3 btn-md" href="{% url 'cart' %}"><i class="bi bi-cart3"></i>  Cart</a>
-              <a class="btn btn-warning btn-md" href="{% url 'profile' %}"><i class="bi bi-person-fill fa-lg"></i>  Sign up</a>
+              {% if request.user.customer %}
+              Welcome {{request.user.username}}!
+              <a href="{% url 'userlogout' %}" class="btn btn-outline-danger">Logout</a>
+              {% else %}
+              <a class="btn btn-warning btn-md" href="{% url 'registration' %}"><i class="bi bi-person-fill fa-lg"></i>Sign up</a>
+              <a class="btn btn-warning btn-md" href="{% url 'userlogin' %}"><i class="bi bi-person-fill fa-lg"></i>Sign in</a>
+          {% endif %}
           </div>
         </div>
     </header>
@@ -55,14 +58,16 @@
     <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-light rounded" aria-label="Twelfth navbar example">
       <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10"
+                aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link m-3 text-dark" href="{% url 'women' %}" data-bs-toggle="dropdown"><div class="SVB">Women</div></a>
+              <a class="nav-link m-3 text-dark" href="{% url 'women' %}" data-bs-toggle="dropdown">
+                  <div class="SVB">Women</div></a>
                 <ul class="dropdown-menu" style="margin-top: -20px">
                       <li><a class="dropdown-item" href="#">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
@@ -72,7 +77,8 @@
                   </ul>
             </li>
               <li class="nav-item">
-                  <a class="nav-link m-3 text-dark" href="{% url 'men' %}" data-bs-toggle="dropdown"><div class="SVB">Men</div></a>
+                  <a class="nav-link m-3 text-dark" href="{% url 'men' %}" data-bs-toggle="dropdown">
+                      <div class="SVB">Men</div></a>
                   <ul class="dropdown-menu" style="margin-top: -20px">
                       <li><a class="dropdown-item" href="#">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
@@ -83,7 +89,8 @@
             </li>
               </li>
               <li class="nav-item">
-                  <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown"><div class="SVB">Kids</div></a>
+                  <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown">
+                      <div class="SVB">Kids</div></a>
                   <ul class="dropdown-menu" style="margin-top: -20px">
                       <li><a class="dropdown-item" href="#">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
@@ -93,7 +100,8 @@
                   </ul>
               </li>
               <li class="nav-item">
-                  <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown"><div class="SVB">Teenagers</div></a>
+                  <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown">
+                      <div class="SVB">Teenagers</div></a>
                   <ul class="dropdown-menu dropdown-menu-light" style="margin-top: -20px">
                       <li><a class="dropdown-item" href="#">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
@@ -104,14 +112,15 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link m-3 text-dark" href="{% url 'all_products' %}"><div class="SVB">All products</div></a>
+                  <a class="nav-link m-3 text-dark" href="{% url 'all_products' %}">
+                      <div class="SVB">All products</div></a>
               </li>
           </ul>
         </div>
 
 
 
-          </ul>
+
         </div>
     </nav>
     </div>
@@ -123,17 +132,7 @@
     {% endblock %}
 
 
-    <div class="container-fluid">
-    <section class="bg-light text-center p-5 mt-4">
-		<div class="container p-3">
-			<h3>SUBSCRIBE TO OUR NEWSLETTER</h3><br>
-			<form action="#" method="Post">
-                    <input type="text" class="form-control form-control-lg" name="text" placeholder="Enter Your Email"><br>
-				<button type="button" class="btn btn-outline-primary btn-lg">Subscribe</button>
-			</form>
-		</div>
-	</section>
-    </div>
+
 
     <div class="container-fluid">
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
