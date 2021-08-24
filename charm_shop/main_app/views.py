@@ -1,5 +1,5 @@
 from django.views.generic import View, TemplateView, CreateView, FormView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import UserRegistrationForm, UserLoginForm
@@ -11,25 +11,43 @@ def home(request):
 
 
 def women(request):
-    return render(request, 'main_app/women.html')
+    context = {
+        "items": Product.objects.filter(category=1)
+    }
+    return render(request, 'main_app/women.html', context)
 
 
 def men(request):
-    return render(request, 'main_app/men.html')
+    context = {
+        "items": Product.objects.filter(category=2)
+    }
+    return render(request, 'main_app/men.html', context)
 
 
 def kids(request):
-    return render(request, 'main_app/kids.html')
+    context = {
+        'kiditem': Product.objects.filter(category=3)
+    }
+    return render(request, 'main_app/kids.html', context)
 
 
 def cart(request):
     return render(request, 'main_app/cart.html')
 
 
+def subitem(request):
+    context = {
+        'products': Product.objects.all(),
+        'categories': SubCategory.objects.all(),
+        'item': Product.objects.filter(category=1, sub_category_id=1)
+    }
+    return render(request, 'main_app/subitem.html', context)
+
+
 
 def all_products(request):
     context = {
-        'products': Product.objects.all()
+        'products': Product.objects.all(),
     }
     return render(request, 'main_app/all_products.html', context)
 
@@ -43,12 +61,14 @@ class ProductDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         url_slug = self.kwargs['slug']
         product = Product.objects.get(slug=url_slug)
-        context['product'] = product
+        context = {
+            'product': product,
+        }
         return context
 
 
 class UserRegistrationView(CreateView):
-    template_name = "registration.html"
+    template_name = "main_app/registration.html"
     form_class = UserRegistrationForm
     success_url = reverse_lazy("home")
 
@@ -69,7 +89,7 @@ class UserLogoutView(View):
 
 
 class UserLoginView(FormView):
-    template_name = "userlogin.html"
+    template_name = "main_app/userlogin.html"
     form_class = UserLoginForm
     success_url = reverse_lazy("home")
 
@@ -85,8 +105,31 @@ class UserLoginView(FormView):
         return super().form_valid(form)
 
 """
+
+Adding search 
+
 def new_search(request):
     search = request.POST.get("search")
     print(search)
     return render(request, 'main_app/home.html')
+"""
+
+
+
+#One way to get products from sub_category
+
+def winteritems(request, data=None):
+    if data == None:
+        winter = Product.objects.all(category="Women")
+    elif data == 'Winters Clothing' or 'Summer Wear' or 'Footwear' or 'Accessories' or 'Pyjamas':
+        winter = Product.objects.filter(category__title="Women", sub_category__title=data)
+    return render(request, 'main_app/winteritems.html', {'winter': winter})
+
+
+"""
+def winter(request):
+    context = {
+        "forwinter": Product.objects.filter(sub_category=1).filter(category=1)
+    }
+    return render(request, 'main_app/wintwint.html', context)
 """

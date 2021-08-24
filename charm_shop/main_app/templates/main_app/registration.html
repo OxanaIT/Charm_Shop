@@ -15,13 +15,13 @@ User Registration
 <div class="container">
   <div class="row">
     <div class="col-md-6 mx-auto">
-      <h2>User Registration Form</h2><hr>
-      <form action="" method="POST">
+      <h2 class="mt-4 text-center">Create account</h2><hr>
+      <form action="" method="POST" class="mt-4">
         {% csrf_token %}
         {{form.as_p}}
-        <button class="btn btn-primary">Sign Up</button>
+        <button class="btn btn-dark mt-2 mb-3">Register</button>
       </form>
-      <p>Already have an account?  <a href="{% url 'userlogin' %}"</a>Login Here</p>
+      <p><a href="{% url 'userlogin' %} " class="text-dark">Already have an account? Sign In</a></p>
     </div>
   </div>
 </div>
