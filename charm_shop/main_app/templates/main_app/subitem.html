@@ -1,0 +1,21 @@
+{% extends "main_app/base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row mt-5">
+        {% for i in item %}
+        <div class="col-md-3">
+            <div class="m-2">
+                <h3><a href="{% url 'productdetail' i.slug %}"></a> {{ i.title }}  </h3>
+                <a href="{% url 'productdetail' i.slug %}"> <img src="{{ i.image }}" height="250" > </a>
+                <p class="mt-4">Price: {{ i.price }} EUR</p>
+                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

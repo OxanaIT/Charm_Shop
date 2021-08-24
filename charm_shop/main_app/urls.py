@@ -18,9 +18,11 @@ urlpatterns = [
     path("category/", views.subitem, name="subitem"),
 
 
-    path("women/<slug:data>", views.winteritems, name="winteritemsdata"),
+    path("women/<slug:data>", views.womencateg, name="womencateg"),
+    path("men/<slug:data>", views.mencateg, name="mencateg"),
+    path("kids/<slug:data>", views.kidcateg, name="kidcateg"),
 
 
-    #path("winter/", views.winter, name="winter")
+
 
 ]

@@ -116,20 +116,34 @@ def new_search(request):
 
 
 
-#One way to get products from sub_category
-
-def winteritems(request, data=None):
+def womencateg(request, data=None):
     if data == None:
         winter = Product.objects.all(category="Women")
-    elif data == 'Winters Clothing' or 'Summer Wear' or 'Footwear' or 'Accessories' or 'Pyjamas':
-        winter = Product.objects.filter(category__title="Women", sub_category__title=data)
+    elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
+        winter = Product.objects.filter(category__title="Women", sub_category__slug=data)
     return render(request, 'main_app/winteritems.html', {'winter': winter})
 
+def mencateg(request, data=None):
+    if data == None:
+        mencat = Product.objects.all(category="Men")
+    elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
+        mencat = Product.objects.filter(category__title="Men", sub_category__slug=data)
+    return render(request, 'main_app/winteritems.html', {'mencat': mencat})
+
+def kidcateg(request, data=None):
+    if data == None:
+        kidcat = Product.objects.all(category="Kids")
+    elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
+        kidcat = Product.objects.filter(category__title="Kids", sub_category__slug=data)
+    return render(request, 'main_app/winteritems.html', {'kidcat': kidcat})
 
 """
-def winter(request):
-    context = {
-        "forwinter": Product.objects.filter(sub_category=1).filter(category=1)
-    }
-    return render(request, 'main_app/wintwint.html', context)
+def subcat(request, data=None):
+    if data == None:
+        winter = Product.objects.all(category="Women")
+        men = Product.objects.all(category="Men")
+    elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
+        winter = Product.objects.filter(category__title="Women", sub_category__slug=data)
+        men = Product.objects.filter(category__title="Men", sub_category__slug=data)
+    return render(request, 'main_app/winteritems.html', {'winter': winter, 'men': men})
 """
