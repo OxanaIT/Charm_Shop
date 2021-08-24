@@ -42,12 +42,23 @@
                     <input class="btn btn-outline-dark" type="submit" value="Search">
                   </form>
               <a class="btn btn-outline-dark m-3 btn-md" href="{% url 'cart' %}"><i class="bi bi-cart3"></i>  Cart</a>
+
               {% if request.user.customer %}
-              Welcome {{request.user.username}}!
-              <a href="{% url 'userlogout' %}" class="btn btn-outline-danger">Logout</a>
+              <div class="dropdown">
+                  <button class="btn btn-dark dropdown-toggle"
+                          type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false">
+                        {{request.user.username}}
+                </button>
+                  <div class="dropdown-menu" style="min-width: 70px" aria-labelledby="dropdownMenuButton">
+                    <a href="{% url 'userlogout' %}" class="dropdown-item">Logout</a>
+                  </div>
+              </div>
               {% else %}
-              <a class="btn btn-warning btn-md" href="{% url 'registration' %}"><i class="bi bi-person-fill fa-lg"></i>Sign up</a>
-              <a class="btn btn-warning btn-md" href="{% url 'userlogin' %}"><i class="bi bi-person-fill fa-lg"></i>Sign in</a>
+
+              <!--<a class="btn btn-outline-dark btn-md" href="{% url 'registration' %}"><i class="bi bi-person-fill fa-lg"></i>Sign up</a>-->
+              <a class="btn btn-dark btn-md" href="{% url 'userlogin' %}"><i class="bi bi-person-fill fa-lg"></i>  Profile</a>
           {% endif %}
           </div>
         </div>
@@ -69,11 +80,11 @@
               <a class="nav-link m-3 text-dark" href="{% url 'women' %}" data-bs-toggle="dropdown">
                   <div class="SVB">Women</div></a>
                 <ul class="dropdown-menu" style="margin-top: -20px">
-                      <li><a class="dropdown-item" href="#">Winters clothing</a></li>
-                      <li><a class="dropdown-item" href="#">Summer wear</a></li>
-                      <li><a class="dropdown-item" href="#">Footwear</a></li>
-                      <li><a class="dropdown-item" href="#">Accessories</a></li>
-                      <li><a class="dropdown-item" href="#">Pyjamas</a></li>
+                    <li><a class="dropdown-item" href="{% url 'winteritemsdata' 'Winter' %}">Winters clothing</a></li>
+                      <li><a class="dropdown-item" href="{% url 'winteritemsdata' 'Summer' %}">Summer wear</a></li>
+                      <li><a class="dropdown-item" href="{% url 'winteritemsdata' 'Footwear' %}">Footwear</a></li>
+                      <li><a class="dropdown-item" href="{% url 'winteritemsdata' 'Accessories' %}">Accessories</a></li>
+                      <li><a class="dropdown-item" href="{% url 'winteritemsdata' 'Pyjamas' %}">Pyjamas</a></li>
                   </ul>
             </li>
               <li class="nav-item">
@@ -92,7 +103,7 @@
                   <a class="nav-link m-3 text-dark" href="{% url 'kids' %}" data-bs-toggle="dropdown">
                       <div class="SVB">Kids</div></a>
                   <ul class="dropdown-menu" style="margin-top: -20px">
-                      <li><a class="dropdown-item" href="#">Winters clothing</a></li>
+                      <li><a class="dropdown-item" href="{% url 'subitem' %}">Winters clothing</a></li>
                       <li><a class="dropdown-item" href="#">Summer wear</a></li>
                       <li><a class="dropdown-item" href="#">Footwear</a></li>
                       <li><a class="dropdown-item" href="#">Accessories</a></li>
@@ -166,6 +177,9 @@
       </footer>
     </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 </html>

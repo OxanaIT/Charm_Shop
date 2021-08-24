@@ -15,16 +15,19 @@ User Registration
 <div class="container">
   <div class="row">
     <div class="col-md-6 mx-auto">
-      <h2>User Registration Form</h2><hr>
-      <form action="" method="POST">
+      <h2 class="text-center mt-4">Sign in</h2><hr>
+      <form action="" method="POST" class="mt-5 text-center">
         {% csrf_token %}
+
         {{form.as_p}}
-        <button class="btn btn-primary">Sign In</button>
+
+        <button class="btn btn-dark mt-2 mb-3 w-50">Sign In</button>
         {% if error %}
-        <li style="color: red">{{ error }}</li>
+        <li style="color: red" class="mb-2">{{ error }}</li>
         {% endif %}
       </form>
-      <p>or don't have an account?  <a href="{% url 'registration' %}"</a>Register Here</p>
+      <p class="text-center"><a href="{% url 'registration' %}" class="text-dark link-hover-decoration">
+        Don't have an account? Register here</a></p>
     </div>
   </div>
 </div>

@@ -14,4 +14,13 @@ urlpatterns = [
     path("register/", UserRegistrationView.as_view(), name="registration"),
     path("logout/", UserLogoutView.as_view(), name="userlogout"),
     path("login/", UserLoginView.as_view(), name="userlogin"),
+
+    path("category/", views.subitem, name="subitem"),
+
+
+    path("women/<slug:data>", views.winteritems, name="winteritemsdata"),
+
+
+    #path("winter/", views.winter, name="winter")
+
 ]
