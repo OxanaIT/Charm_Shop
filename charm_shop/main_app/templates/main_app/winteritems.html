@@ -1,0 +1,54 @@
+{% extends "main_app/base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+
+
+
+<div class="container mt-5">
+    <div class="row mt-5">
+        {% for product in winter %}
+        <div class="col-md-3">
+            <div class="m-2">
+                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
+                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
+                onmouseleave="this.height=175" ></a>
+                <p class="mt-4">Price: {{ product.price }} EUR</p>
+                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+            </div>
+        </div>
+        {% endfor%}
+
+        {% for product in mencat %}
+        <div class="col-md-3">
+            <div class="m-2">
+                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
+                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
+                onmouseleave="this.height=175" ></a>
+                <p class="mt-4">Price: {{ product.price }} EUR</p>
+                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+            </div>
+        </div>
+        {% endfor%}
+
+        {% for product in kidcat %}
+        <div class="col-md-3">
+            <div class="m-2">
+                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
+                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
+                onmouseleave="this.height=175" ></a>
+                <p class="mt-4">Price: {{ product.price }} EUR</p>
+                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
