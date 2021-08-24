@@ -52,6 +52,35 @@ class Product(models.Model):
         return self.title
 
 
+class VariationManager(models.Manager):
+    def all(self):
+        return super(VariationManager, self).filter(active=True)
+
+    def sizes(self):
+        return self.all().filter(category='size')
+
+    def colors(self):
+        return self.all().filter(category='color')
+
+
+VAR_CATEGORIES = (
+    ('size', 'size'),
+    ('color', 'color'),
+    )
+
+
+class Variation(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    category = models.CharField(max_length=120, choices=VAR_CATEGORIES, default='size')
+    title = models.CharField(max_length=120)
+    active = models.BooleanField(default=True)
+
+    objects = VariationManager()
+
+    def __str__(self):
+        return self.title
+
+
 # creating cart model with connection with Customer model, + total items in cart + when added
 class Cart(models.Model):
     customer = models.ForeignKey(
@@ -64,7 +93,7 @@ class Cart(models.Model):
         return "Cart: " + str(self.id)
 
 
-# create cartproduct - this is shown inside cart
+# create cart product - this is shown inside cart
 class CartProduct(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
