@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import UserRegistrationForm, UserLoginForm
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -60,6 +61,17 @@ class ProductDetailView(TemplateView):
         context = {
             'product': product,
         }
+        return context
+
+
+class SearchView(TemplateView):
+    template_name = 'main_app/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        kw = self.request.GET['keyword']
+        results = Product.objects.filter(Q(title__icontains=kw) | Q(description__icontains=kw))
+        context['results'] = results
         return context
 
 
