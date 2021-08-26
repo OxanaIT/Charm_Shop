@@ -1,0 +1,32 @@
+{% extends 'main_app/base.html' %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <h3>You searched for <span class='text-info'>{{request.GET.keyword}}</span></h3>
+            <hr>
+            {% for result in results %}
+            <div class='row mt-5'>
+                <div class='col-md-4'>
+                    <a href="{% url 'productdetail' result.slug %}"> <img src="{{ result.image }}" height="175"
+                                                                          onmouseover="this.height=210"
+                                                                          onmouseleave="this.height=175" > </a>
+                    <br>
+                </div>
+                <div class='col-md-8'>
+                    <h4>{{result.title}}</h4>
+                    <p class="text">Description: {{ result.description }}</p>
+                    <p class="mt-4">Price: {{ result.price }} EUR</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

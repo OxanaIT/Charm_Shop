@@ -36,9 +36,9 @@
           </div>
 
           <div class="col-4 d-flex justify-content-end align-items-center">
-                  <form action="" method="post" class="input-group col">
+                  <form action="{% url 'search' %}" method="GET" class="input-group col">
                       {% csrf_token %}
-                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <input type="text" class="form-control" placeholder="Search" name="keyword">
                     <input class="btn btn-outline-dark" type="submit" value="Search">
                   </form>
 
