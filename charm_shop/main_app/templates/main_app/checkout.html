@@ -1,0 +1,14 @@
+{% extends "main_app/base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<br>
+<div class="container"><br>
+    <h3 class="text-center">Thank You. Your purchase was successful!</h3>
+    <br>
+    <div class="text-center">
+    <a href="{% url 'home' %}" class="btn btn-warning">Go Back Shopping</a>
+    </div>
+</div>
+{% endblock %}

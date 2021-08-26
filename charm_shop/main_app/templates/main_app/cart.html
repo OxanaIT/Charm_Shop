@@ -1,12 +1,55 @@
 {% extends "main_app/base.html" %}
 
 {% block title %}
-Checkout
+My Cart
 {% endblock %}
 {% block content %}
 
-<div class="container mt-5"><br>
-<h1>Your cart is empty!</h1>
-    <a class="btn btn-warning btn-lg mb-5" href="{% url 'home' %}">Go Shopping</a>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>My Cart</h1><hr>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th>SN</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in cart.cartproduct_set.all %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <th>{{ cp.product.title }}</th>
+                        <th>{{ cp.rate }}</th>
+                        <th>{{ cp.quantity }}</th>
+                        <th>{{ cp.subtotal }}</th>
+                        <th>
+                            <a href="{% url 'managecart' cp.id %}?action=inc" class="btn btn-outline-dark"> + </a>
+                            <a href="{% url 'managecart' cp.id %}?action=dcr" class="btn btn-outline-dark"> - </a>
+                            <a href="{% url 'managecart' cp.id %}?action=rmv" class="btn btn-dark"> ᙭ </a>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right">Total</th>
+                        <th>{{ cart.total }} EUR</th>
+                    </tr>
+                </tbody>
+            </table>
+            {% if cart.cartproduct_set.all %}
+            <a class="btn btn-warning m-3 w-50" href="{% url 'checkout' %}">
+                <i class="bi bi-cart3"></i>  Checkout</a>
+            {% endif %}
+           </div>
+    </div>
 </div>
+
+
+
 {% endblock %}
