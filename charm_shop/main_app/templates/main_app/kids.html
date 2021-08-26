@@ -14,7 +14,7 @@ Kids Section
                 <a href="{% url 'productdetail' k.slug %}"> <img src="{{ k.image }}" height="175" onmouseover="this.height=210"
                 onmouseleave="this.height=175" > </a>
                 <p class="mt-4">Price: {{ k.price }} EUR</p>
-                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+                <a href="{% url 'addtocart' k.id %}" class="btn btn-success mb-3">Add To Cart</a>
             </div>
         </div>
         {% endfor %}

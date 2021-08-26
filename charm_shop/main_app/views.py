@@ -31,10 +31,6 @@ def kids(request):
     return render(request, 'main_app/kids.html', context)
 
 
-def cart(request):
-    return render(request, 'main_app/cart.html')
-
-
 def subitem(request):
     context = {
         'products': Product.objects.all(),
@@ -104,16 +100,104 @@ class UserLoginView(FormView):
                                                              "error": "This user doesn't exist"})
         return super().form_valid(form)
 
-"""
 
-Adding search 
 
-def new_search(request):
-    search = request.POST.get("search")
-    print(search)
-    return render(request, 'main_app/home.html')
-"""
+class AddToCartView(TemplateView):
+    template_name = "main_app/addtocart.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get product id from requested url
+        product_id = self.kwargs['pro_id']
+        # get product
+        product_obj = Product.objects.get(id=product_id)
+        # check if cart exists
+        cart_id = self.request.session.get('cart_id', None)
+        if cart_id:
+            cart_obj = Cart.objects.get(id=cart_id)
+            this_product_in_cart = cart_obj.cartproduct_set.filter(product=product_obj)
+
+            # items already exists in cart
+            if this_product_in_cart.exists():
+                cartproduct = this_product_in_cart.last()
+                cartproduct.quantity += 1
+                cartproduct.subtotal += product_obj.price
+                cartproduct.save()
+                cart_obj.total += product_obj.price
+                cart_obj.save()
+            # new item is added in cart
+            else:
+                cartproduct = CartProduct.objects.create(cart=cart_obj, product=product_obj,
+                                                         rate=product_obj.price, quantity=1,
+                                                         subtotal=product_obj.price)
+                cart_obj.total += product_obj.price
+                cart_obj.save()
+        # if cart does not exist
+        else:
+            cart_obj = Cart.objects.create(total=0)
+            self.request.session['cart_id'] = cart_obj.id
+            cartproduct = CartProduct.objects.create(cart=cart_obj, product=product_obj,
+                                                     rate=product_obj.price, quantity=1,
+                                                     subtotal=product_obj.price)
+            cart_obj.total += product_obj.price
+            cart_obj.save()
+
+        return context
+
+
+
+class ManageCartView(View):
+    def get(self, request, *args, **kwargs):
+        cp_id = self.kwargs["cp_id"]
+        action = request.GET.get("action")
+        cp_obj = CartProduct.objects.get(id=cp_id)
+        cart_obj = cp_obj.cart
+
+        # when user inc the item - inc quantity, subtotal, cart value
+        if action == "inc":
+            cp_obj.quantity += 1
+            cp_obj.subtotal += cp_obj.rate
+            cp_obj.save()
+            cart_obj.total += cp_obj.rate
+            cart_obj.save()
+
+        # when user dcr the item - dcr quantity, subtotal, cart value
+        elif action == "dcr":
+                cp_obj.quantity -= 1
+                cp_obj.subtotal -= cp_obj.rate
+                cp_obj.save()
+                cart_obj.total -= cp_obj.rate
+                cart_obj.save()
+                if cp_obj.quantity == 0:
+                    cp_obj.delete()
+
+        # remove the item subtotal value from total. Delete cart product obj
+        elif action == "rmv":
+            cart_obj.total -= cp_obj.subtotal
+            cart_obj.save()
+            cp_obj.delete()
+        else:
+            pass
+        return redirect("mycart")
+
+
+class MyCartView(TemplateView):
+    template_name = "main_app/cart.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_id = self.request.session.get("cart_id", None)
+        # if exists
+        if cart_id:
+            cart = Cart.objects.get(id=cart_id)
+        else:
+            cart = None
+        context['cart'] = cart
+        return context
+
+
+def checkout(request):
+    return render(request, "main_app/checkout.html")
 
 
 def womencateg(request, data=None):
@@ -136,14 +220,3 @@ def kidcateg(request, data=None):
     elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
         kidcat = Product.objects.filter(category__title="Kids", sub_category__slug=data)
     return render(request, 'main_app/winteritems.html', {'kidcat': kidcat})
-
-"""
-def subcat(request, data=None):
-    if data == None:
-        winter = Product.objects.all(category="Women")
-        men = Product.objects.all(category="Men")
-    elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
-        winter = Product.objects.filter(category__title="Women", sub_category__slug=data)
-        men = Product.objects.filter(category__title="Men", sub_category__slug=data)
-    return render(request, 'main_app/winteritems.html', {'winter': winter, 'men': men})
-"""

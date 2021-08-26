@@ -1,0 +1,13 @@
+{% extends "main_app/base.html" %}
+
+{% block title %}Add To Cart{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="container text-center">
+    <h3>Product added to cart successfully</h3>
+    <a onClick="javascript:history.go(-1)" class="btn btn-warning m-3 btn-md"><i class="bi bi-arrow-left">  Back</i></a>
+    <a class="btn btn-warning m-3 btn-md" href="{% url 'mycart' %}"><i class="bi bi-cart3"></i>  Cart</a>
+</div>
+{% endblock %}
