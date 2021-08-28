@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 # creating Customer model with user that is one to one one user one cart one page. + import from
 # django auth.model - User. name, address + when created the account
+from django.urls import reverse
+
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200)
@@ -24,6 +27,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+
+    def get_absolute_url(self):
+        return reverse("store:category_list", [self.slug])
 
 
 class SubCategory(models.Model):
