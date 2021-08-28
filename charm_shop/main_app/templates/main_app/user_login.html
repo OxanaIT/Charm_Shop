@@ -26,7 +26,8 @@ User Registration
         <li style="color: red" class="mb-2">{{ error }}</li>
         {% endif %}
       </form>
-      <p class="text-center"><a href="{% url 'registration' %}" class="text-dark link-hover-decoration">
+      <p class="text-center"><a href="{% url 'registration' %}{% if request.GET.next %}?next={{ request.GET.next }}
+      {% endif %}" class="text-dark link-hover-decoration">
         Don't have an account? Register here</a></p>
     </div>
   </div>
