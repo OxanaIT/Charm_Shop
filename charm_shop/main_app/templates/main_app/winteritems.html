@@ -7,6 +7,7 @@
 
 <div class="container mt-5">
     <div class="row mt-5">
+        {% if winter %}
         {% for product in winter %}
         <div class="col-md-3">
             <div class="m-2">
@@ -17,7 +18,8 @@
                 <a href="{% url 'addtocart' product.id %}" class="btn btn-success mb-3">Add To Cart</a>
             </div>
         </div>
-        {% endfor%}
+        {% endfor %}
+        {% endif %}
 
         {% for product in mencat %}
         <div class="col-md-3">

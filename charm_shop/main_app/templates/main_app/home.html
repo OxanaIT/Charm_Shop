@@ -1,16 +1,49 @@
-{% extends "main_app/base.html" %}
+{% extends "main_app/base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<style>
+    .carousel-item {
+        height: 440px;
+    }
+</style>
 
-{% block title %}
-Charm Shop
-{% endblock %}
+<div class="container-fluid">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 
-{% block content %}
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://miro.medium.com/max/12000/1*aikOGdcr9J0-5xKQkWAp_w.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption" style="font-size: 70px; font-weight:bolder; bottom:120px">
+                <p>Welcome to Charm Shop</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://www.esmod.com/wp-content/uploads/2020/02/capture-decran-2020-02-18-a-12-00-35-1920x1145.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption text-black">
+                <p style="font-size: 40px; font-weight:bolder; bottom:120px">Introducing the Fall/Winter 2021 collection</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://postfashionism.com/wp-content/uploads/2021/02/mens-fashion-trends-2021.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption text-black" style="font-size: 40px; font-weight:bolder;">
+                <p>Introducing the Fall/Winter 2021 collection</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://media.fashionnetwork.com/m/4ddc/8015/e306/d535/0ae0/7bf0/6c5a/739c/3e30/d07c/d07c.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption text-warning" style="font-size: 70px; font-weight:bolder; bottom:120px">
+                <p>Get ready for school!</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div></div>
 
 
-<div class="container mt-5">
-<h1>Charm Shop!</h1>
-<p>Clothing store.</p>
-</div>
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 {% endblock %}

@@ -1,45 +1,44 @@
 from django.views.generic import View, TemplateView, CreateView, FormView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import UserRegistrationForm, UserLoginForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-# Create your views here.
-def home(request):
+
+def home_page(request):
     return render(request, 'main_app/home.html')
 
 
-def women(request):
+def women_category(request):
     context = {
         "items": Product.objects.filter(category=1)
     }
     return render(request, 'main_app/women.html', context)
 
 
-def men(request):
+def men_category(request):
     context = {
         "items": Product.objects.filter(category=2)
     }
     return render(request, 'main_app/men.html', context)
 
 
-def kids(request):
+def kids_category(request):
     context = {
         'kiditem': Product.objects.filter(category=3)
     }
     return render(request, 'main_app/kids.html', context)
 
 
-def subitem(request):
+def sub_items(request):
     context = {
         'products': Product.objects.all(),
         'categories': SubCategory.objects.all(),
         'item': Product.objects.filter(category=1, sub_category_id=1)
     }
     return render(request, 'main_app/subitem.html', context)
-
 
 
 def all_products(request):
@@ -89,6 +88,13 @@ class UserRegistrationView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
 
+    def get_success_url(self):
+        if "next" in self.request.GET:
+            next_url = self.request.GET.get("next")
+            return next_url
+        else:
+            return self.success_url
+
 
 class UserLogoutView(View):
     def get(self, request):
@@ -97,21 +103,27 @@ class UserLogoutView(View):
 
 
 class UserLoginView(FormView):
-    template_name = "main_app/userlogin.html"
+    template_name = "main_app/user_login.html"
     form_class = UserLoginForm
     success_url = reverse_lazy("home")
 
     def form_valid(self, form):
-        uname = form.cleaned_data.get("username")
-        pword = form.cleaned_data.get("password")
-        usr = authenticate(username=uname, password=pword)
-        if usr is not None and usr.customer:
-            login(self.request, usr)
+        user_name = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        user = authenticate(username=user_name, password=password)
+        if user is not None and user.customer:
+            login(self.request, user)
         else:
             return render(self.request, self.template_name, {"form": self.form_class,
                                                              "error": "This user doesn't exist"})
         return super().form_valid(form)
 
+    def get_success_url(self):
+        if "next" in self.request.GET:
+            next_url = self.request.GET.get("next")
+            return next_url
+        else:
+            return self.success_url
 
 
 class AddToCartView(TemplateView):
@@ -157,7 +169,6 @@ class AddToCartView(TemplateView):
         return context
 
 
-
 class ManageCartView(View):
     def get(self, request, *args, **kwargs):
         cp_id = self.kwargs["cp_id"]
@@ -175,13 +186,13 @@ class ManageCartView(View):
 
         # when user dcr the item - dcr quantity, subtotal, cart value
         elif action == "dcr":
-                cp_obj.quantity -= 1
-                cp_obj.subtotal -= cp_obj.rate
-                cp_obj.save()
-                cart_obj.total -= cp_obj.rate
-                cart_obj.save()
-                if cp_obj.quantity == 0:
-                    cp_obj.delete()
+            cp_obj.quantity -= 1
+            cp_obj.subtotal -= cp_obj.rate
+            cp_obj.save()
+            cart_obj.total -= cp_obj.rate
+            cart_obj.save()
+            if cp_obj.quantity == 0:
+                cp_obj.delete()
 
         # remove the item subtotal value from total. Delete cart product obj
         elif action == "rmv":
@@ -209,15 +220,22 @@ class MyCartView(TemplateView):
 
 
 def checkout(request):
-    return render(request, "main_app/checkout.html")
+    if request.user.is_authenticated and request.user.customer:
+        pass
+    else:
+        return redirect("/login/?next=/my-cart/")
+    return render(request, 'main_app/checkout.html')
 
 
 def womencateg(request, data=None):
-    if data == None:
+    winter = []
+    #category_name = ["Women", "Men", "Kids"]
+    if data is None:
         winter = Product.objects.all(category="Women")
     elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
         winter = Product.objects.filter(category__title="Women", sub_category__slug=data)
     return render(request, 'main_app/winteritems.html', {'winter': winter})
+
 
 def mencateg(request, data=None):
     if data == None:
@@ -225,6 +243,7 @@ def mencateg(request, data=None):
     elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
         mencat = Product.objects.filter(category__title="Men", sub_category__slug=data)
     return render(request, 'main_app/winteritems.html', {'mencat': mencat})
+
 
 def kidcateg(request, data=None):
     if data == None:
