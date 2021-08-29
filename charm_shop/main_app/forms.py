@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer
+from .models import Customer, Order
 from django.contrib.auth.models import User
 
 
@@ -19,6 +19,13 @@ class UserRegistrationForm(forms.ModelForm):
 
         return uname
 
+
 class UserLoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['ordered_by', 'mobile', 'email']

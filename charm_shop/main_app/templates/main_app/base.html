@@ -55,7 +55,8 @@
                         {{request.user.username}}
                 </button>
                   <div class="dropdown-menu" style="min-width: 70px" aria-labelledby="dropdownMenuButton">
-                    <a href="{% url 'userlogout' %}" class="dropdown-item">Logout</a>
+                      <a href="{% url 'user_profile' %}" class="dropdown-item">My Profile</a>
+                      <a href="{% url 'userlogout' %}" class="dropdown-item">Logout</a>
                   </div>
               </div>
               {% else %}
@@ -76,7 +77,6 @@
                 aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
           <ul class="navbar-nav">
             <li class="nav-item">

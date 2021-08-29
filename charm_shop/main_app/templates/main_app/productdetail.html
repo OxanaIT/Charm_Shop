@@ -32,7 +32,8 @@
             {% endif %}
             </form>
         </div>
-            <a href="{% url 'addtocart' product.id %}" class="btn btn-outline-dark mt-4 mb-1" style="display:block">Add To Cart</a>
+            <a href="{% url 'addtocart' product.id %}" class="btn btn-outline-dark mt-4 mb-1" style="display:block">
+                Add To Cart</a>
             <hr>
 
             <p class="text-uppercase">Description: {{ product.description }}</p>

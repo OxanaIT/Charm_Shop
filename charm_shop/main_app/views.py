@@ -1,10 +1,21 @@
-from django.views.generic import View, TemplateView, CreateView, FormView
+from django.views.generic import View, TemplateView, CreateView, FormView, DetailView
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import *
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, CheckoutForm
 from django.urls import reverse_lazy
 from django.db.models import Q
+
+
+class AssignCustomer(object):
+    def dispatch(self, request, *args, **kwargs):
+        cart_id = request.session.get("cart_id")
+        if cart_id:
+            cart_obj = Cart.objects.get(id=cart_id)
+            if request.user.is_authenticated and request.user.customer:
+                cart_obj.customer = request.user.customer
+                cart_obj.save()
+        return super().dispatch(request, *args, **kwargs)
 
 
 def home_page(request):
@@ -48,7 +59,7 @@ def all_products(request):
     return render(request, 'main_app/all_products.html', context)
 
 
-class ProductDetailView(TemplateView):
+class ProductDetailView(AssignCustomer, TemplateView):
     template_name = "main_app/productdetail.html"
 
     # dynamic content is not present, we have to send it from our backend
@@ -63,7 +74,7 @@ class ProductDetailView(TemplateView):
         return context
 
 
-class SearchView(TemplateView):
+class SearchView(AssignCustomer, TemplateView):
     template_name = 'main_app/search.html'
 
     def get_context_data(self, **kwargs):
@@ -126,7 +137,7 @@ class UserLoginView(FormView):
             return self.success_url
 
 
-class AddToCartView(TemplateView):
+class AddToCartView(AssignCustomer, TemplateView):
     template_name = "main_app/addtocart.html"
 
     def get_context_data(self, **kwargs):
@@ -169,7 +180,7 @@ class AddToCartView(TemplateView):
         return context
 
 
-class ManageCartView(View):
+class ManageCartView(AssignCustomer, View):
     def get(self, request, *args, **kwargs):
         cp_id = self.kwargs["cp_id"]
         action = request.GET.get("action")
@@ -204,7 +215,7 @@ class ManageCartView(View):
         return redirect("mycart")
 
 
-class MyCartView(TemplateView):
+class MyCartView(AssignCustomer, TemplateView):
     template_name = "main_app/cart.html"
 
     def get_context_data(self, **kwargs):
@@ -219,12 +230,40 @@ class MyCartView(TemplateView):
         return context
 
 
-def checkout(request):
-    if request.user.is_authenticated and request.user.customer:
-        pass
-    else:
-        return redirect("/login/?next=/my-cart/")
-    return render(request, 'main_app/checkout.html')
+class CheckoutView(AssignCustomer, CreateView):
+    template_name = "main_app/checkout.html"
+    form_class = CheckoutForm
+    success_url = reverse_lazy("home")
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.customer:
+            pass
+        else:
+            return redirect("/login/?next=/checkout/")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_id = self.request.session.get('cart_id', None)
+        if cart_id:
+            cart_obj = Cart.objects.get(id=cart_id)
+        else:
+            cart_obj = None
+        context['cart'] = cart_obj
+        return context
+
+    def form_valid(self, form):
+        cart_id = self.request.session.get("cart_id")
+        if cart_id:
+            cart_obj = Cart.objects.get(id=cart_id)
+            form.instance.cart = cart_obj
+            form.instance.subtotal = cart_obj.total
+            form.instance.total = cart_obj.total
+            form.instance.order_status = "Order Received"
+            del self.request.session['cart_id']
+        else:
+            return redirect("home")
+        return super().form_valid(form)
 
 
 def womencateg(request, data=None):
@@ -251,3 +290,36 @@ def kidcateg(request, data=None):
     elif data == 'winters-clothing' or 'summer-wear' or 'footwear' or 'accessories' or 'pyjamas':
         kidcat = Product.objects.filter(category__title="Kids", sub_category__slug=data)
     return render(request, 'main_app/winteritems.html', {'kidcat': kidcat})
+
+
+class UserProfileView(AssignCustomer, TemplateView):
+    template_name = 'main_app/user_profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.customer:
+            pass
+        else:
+            return redirect("/login/?next=/checkout/")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        customer = self.request.user.customer
+        context['customer'] = customer
+        orders = Order.objects.filter(cart__customer=customer)
+        context['orders'] = orders
+        return context
+
+
+class CustomerOrderDetailView(DetailView):
+    template_name = 'main_app/customer_order_detail.html'
+    model = Order
+    context_object_name = 'ord_obj'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.customer:
+            pass
+        else:
+            return redirect("/login/?next=/checkout/")
+        return super().dispatch(request, *args, **kwargs)
+

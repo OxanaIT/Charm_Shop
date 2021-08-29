@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200)
-    address = models.CharField(max_length=200, null=True, blank=True)
+    # address = models.CharField(max_length=200, null=True, blank=True)
     joined_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Variation(models.Model):
 class Cart(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, null=True, blank=True)
-    total = models.PositiveIntegerField(default=0)
+    total = models.FloatField(default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
 
     # returning id of cart
@@ -97,9 +97,9 @@ class Cart(models.Model):
 class CartProduct(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rate = models.PositiveIntegerField(null=True)
+    rate = models.FloatField(default=0.00)
     quantity = models.PositiveIntegerField()
-    subtotal = models.PositiveIntegerField()
+    subtotal = models.FloatField(default=0.00)
 
     def __str__(self):
         return "Cart: " + str(self.cart.id) + "CartProduct: " + str(self.id)
@@ -120,8 +120,8 @@ class Order(models.Model):
     shipping_address = models.CharField(max_length=200)
     mobile = models.CharField(max_length=10)
     email = models.EmailField(null=True, blank=True)
-    subtotal = models.PositiveIntegerField()
-    total = models.PositiveIntegerField()
+    subtotal = models.FloatField(default=0.00)
+    total = models.FloatField(default=0.00)
     order_status = models.CharField(max_length=50, choices=ORDER_STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
 

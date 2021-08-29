@@ -1,0 +1,48 @@
+{% extends "main_app/base.html" %}
+{% block title %}
+My Profile
+{% endblock %}
+{% block content %}
+<div class="conteiner">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h3>Order Detail</h3><hr>
+            <p><span class="font-weight-bold"></span> Order Nr.{{ord_obj.id}} </p>
+            <p><span class="font-weight-bold"></span> Order status: {{ord_obj.order_status}} </p>
+            <p><span class="font-weight-bold"></span> Ordered on: {{ord_obj.created_at}} </p>
+            <h4>Ordered Items</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for cp in ord_obj.cart.cartproduct_set.all %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{cp.product.title}}</td>
+                    <td>{{cp.quantity}}</td>
+                    <td>{{cp.rate}}</td>
+                    <td>{{cp.subtotal}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="4" class="text-right">Total</th>
+                    <th>{{ord_obj.total}}</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

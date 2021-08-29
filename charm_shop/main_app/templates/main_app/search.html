@@ -22,6 +22,7 @@ Search
                     <h4>{{result.title}}</h4>
                     <p class="text">Description: {{ result.description }}</p>
                     <p class="mt-4">Price: {{ result.price }} EUR</p>
+                    <a href="{% url 'addtocart' result.id %}" class="btn btn-success mb-3">Add To Cart</a>
                 </div>
             </div>
             {% endfor %}
