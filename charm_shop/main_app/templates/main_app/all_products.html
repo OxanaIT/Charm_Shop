@@ -1,6 +1,6 @@
 {% extends 'main_app/base.html' %}
 {% block title %}
-ALL
+All Products
 {% endblock %}
 {% block content %}
 
@@ -9,15 +9,17 @@ ALL
     <hr>
     <div class="row mt-5">
         {% for p in products %}
-        <div class="col-md-3">
-            <div class="m-2">
-                <h3><a href="{% url 'productdetail' p.slug %}"></a> {{ p.title }}  </h3>
-                <a href="{% url 'productdetail' p.slug %}"> <img src="{{ p.image }}" height="175" onmouseover="this.height=210"
-                onmouseleave="this.height=175" > </a>
-                <p class="mt-4">Price: {{ p.price }} EUR</p>
-                <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+            <div class="card text-center m-2" style="width: 18rem;"
+            onmouseover="this.style.border = '1px solid #707371'"
+            onmouseout="this.style.border = '1px solid #EDEDED'">
+                <h5 class="card-title"><a href="{% url 'productdetail' p.slug %}"></a>{{ p.title }}</h5>
+                                <a href="{% url 'productdetail' p.slug %}">
+                <img class="card-img-top" src="{{ p.image }}" alt="Card image cap"></a>
+                <div class="mt-auto">
+                    <p> Price: {{ p.price }} EUR</p>
+                    <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>

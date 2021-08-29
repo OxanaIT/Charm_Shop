@@ -4,18 +4,19 @@
 
 <div class="container mt-5">
     <div class="row mt-5">
-        {% for i in item %}
-        <div class="col-md-3">
-            <div class="m-2">
-                <h3><a href="{% url 'productdetail' i.slug %}"></a> {{ i.title }}  </h3>
-                <a href="{% url 'productdetail' i.slug %}"> <img src="{{ i.image }}" height="250" > </a>
-                <p class="mt-4">Price: {{ i.price }} EUR</p>
-                <a href="" class="btn btn-success mb-3">Add To Cart</a>
+        {% for p in item %}
+            <div class="card text-center m-2" style="width: 18rem;"
+            onmouseover="this.style.border = '1px solid #707371'"
+            onmouseout="this.style.border = '1px solid #EDEDED'">
+                <h5 class="card-title"><a href="{% url 'productdetail' p.slug %}"></a>{{ p.title }}</h5>
+                                <a href="{% url 'productdetail' p.slug %}">
+                <img class="card-img-top" src="{{ p.image }}" alt="Card image cap"></a>
+                <div class="mt-auto">
+                    <p> Price: {{ p.price }} EUR</p>
+                    <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
-
-
 {% endblock %}

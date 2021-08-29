@@ -13,7 +13,8 @@ urlpatterns = [
     path("register/", UserRegistrationView.as_view(), name="registration"),
     path("logout/", UserLogoutView.as_view(), name="userlogout"),
     path("login/", UserLoginView.as_view(), name="userlogin"),
-
+    path("profile/", UserProfileView.as_view(), name="user_profile"),
+    path('profile/order-<int:pk>/', CustomerOrderDetailView.as_view(), name='customer_order_detail'),
     path("category/", views.sub_items, name="subitem"),
 
 
@@ -25,7 +26,8 @@ urlpatterns = [
     path('add-to-cart-<int:pro_id>/', AddToCartView.as_view(), name="addtocart"),
     path('my-cart/', MyCartView.as_view(), name="mycart"),
     path('manage-cart/<int:cp_id>/', ManageCartView.as_view(), name="managecart"),
-    path('checkout/', views.checkout, name="checkout"),
+    path('checkout/', CheckoutView.as_view(), name="checkout"),
+
 
     path('search/', SearchView.as_view(), name='search')
 

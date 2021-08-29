@@ -23,12 +23,12 @@ My Cart
                 </thead>
                 <tbody>
                     {% for cp in cart.cartproduct_set.all %}
-                    <tr>
+                                        <tr>
                         <th>{{ forloop.counter }}</th>
                         <th>{{ cp.product.title }}</th>
-                        <th>{{ cp.rate }}.00</th>
+                        <th>{{ cp.rate }}</th>
                         <th>{{ cp.quantity }}</th>
-                        <th>{{ cp.subtotal }}.00</th>
+                        <th>{{ cp.subtotal }}</th>
                         <th>
                             <a href="{% url 'managecart' cp.id %}?action=inc" class="btn btn-outline-dark"> + </a>
                             <a href="{% url 'managecart' cp.id %}?action=dcr" class="btn btn-outline-dark"> - </a>
@@ -38,7 +38,7 @@ My Cart
                     {% endfor %}
                     <tr>
                         <th colspan="4" class="text-right">Total</th>
-                        <th>{{ cart.total }}.00 EUR</th>
+                        <th>{{ cart.total }} EUR</th>
                     </tr>
                 </tbody>
             </table>
@@ -49,7 +49,4 @@ My Cart
            </div>
     </div>
 </div>
-
-
-
 {% endblock %}

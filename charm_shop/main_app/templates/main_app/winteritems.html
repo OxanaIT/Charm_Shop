@@ -8,41 +8,47 @@
 <div class="container mt-5">
     <div class="row mt-5">
         {% if winter %}
-        {% for product in winter %}
-        <div class="col-md-3">
-            <div class="m-2">
-                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
-                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
-                onmouseleave="this.height=175" ></a>
-                <p class="mt-4">Price: {{ product.price }} EUR</p>
-                <a href="{% url 'addtocart' product.id %}" class="btn btn-success mb-3">Add To Cart</a>
+        {% for p in winter %}
+                    <div class="card text-center m-2" style="width: 18rem;"
+            onmouseover="this.style.border = '1px solid #707371'"
+            onmouseout="this.style.border = '1px solid #EDEDED'">
+                <h5 class="card-title"><a href="{% url 'productdetail' p.slug %}"></a>{{ p.title }}</h5>
+                                <a href="{% url 'productdetail' p.slug %}">
+                <img class="card-img-top" src="{{ p.image }}" alt="Card image cap"></a>
+                <div class="mt-auto">
+                    <p> Price: {{ p.price }} EUR</p>
+                    <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+                </div>
             </div>
-        </div>
         {% endfor %}
         {% endif %}
 
-        {% for product in mencat %}
-        <div class="col-md-3">
-            <div class="m-2">
-                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
-                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
-                onmouseleave="this.height=175" ></a>
-                <p class="mt-4">Price: {{ product.price }} EUR</p>
-                <a href="{% url 'addtocart' product.id %}" class="btn btn-success mb-3">Add To Cart</a>
+        {% for p in mencat %}
+            <div class="card text-center m-2" style="width: 18rem;"
+            onmouseover="this.style.border = '1px solid #707371'"
+            onmouseout="this.style.border = '1px solid #EDEDED'">
+                <h5 class="card-title"><a href="{% url 'productdetail' p.slug %}"></a>{{ p.title }}</h5>
+                                <a href="{% url 'productdetail' p.slug %}">
+                <img class="card-img-top" src="{{ p.image }}" alt="Card image cap"></a>
+                <div class="mt-auto">
+                    <p> Price: {{ p.price }} EUR</p>
+                    <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+                </div>
             </div>
-        </div>
         {% endfor%}
 
-        {% for product in kidcat %}
-        <div class="col-md-3">
-            <div class="m-2">
-                <h3><a href="{% url 'productdetail' product.slug %}"></a> {{ product.title }}  </h3>
-                <a href="{% url 'productdetail' product.slug %}"> <img src="{{ product.image }}" height="175" onmouseover="this.height=210"
-                onmouseleave="this.height=175" ></a>
-                <p class="mt-4">Price: {{ product.price }} EUR</p>
-                <a href="{% url 'addtocart' product.id %}" class="btn btn-success mb-3">Add To Cart</a>
+        {% for p in kidcat %}
+            <div class="card text-center m-2" style="width: 18rem;"
+            onmouseover="this.style.border = '1px solid #707371'"
+            onmouseout="this.style.border = '1px solid #EDEDED'">
+                <h5 class="card-title"><a href="{% url 'productdetail' p.slug %}"></a>{{ p.title }}</h5>
+                                <a href="{% url 'productdetail' p.slug %}">
+                <img class="card-img-top" src="{{ p.image }}" alt="Card image cap"></a>
+                <div class="mt-auto">
+                    <p> Price: {{ p.price }} EUR</p>
+                    <a href="{% url 'addtocart' p.id %}" class="btn btn-success mb-3">Add To Cart</a>
+                </div>
             </div>
-        </div>
         {% endfor%}
     </div>
 </div>
